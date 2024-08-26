@@ -2,7 +2,7 @@
 
 # Compiler and flags
 CC = g++
-CFLAGS = -Wall -Wextra -std=c++17
+CFLAGS = -Wall -Wextra
 LDFLAGS = -lgtest -lgtest_main -pthread
 
 # Directories

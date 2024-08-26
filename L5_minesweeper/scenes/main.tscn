@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://b8n34uulxbdjk"]
+
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_50dfb"]
+[ext_resource type="Texture2D" uid="uid://fi8q2wvpqd47" path="res://assets/bg.png" id="1_kerqi"]
+[ext_resource type="PackedScene" uid="uid://bdh0qso00khel" path="res://scenes/tile_map.tscn" id="3_em32a"]
+[ext_resource type="PackedScene" uid="uid://to1to4vp6mpv" path="res://scenes/canvas_layer.tscn" id="4_4ync6"]
+[ext_resource type="PackedScene" uid="uid://diska3urliehv" path="res://scenes/game_over.tscn" id="5_hbvy5"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_50dfb")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("1_kerqi")
+offset = Vector2(375, 350)
+
+[node name="TileMap" parent="." instance=ExtResource("3_em32a")]
+
+[node name="HUD" parent="." instance=ExtResource("4_4ync6")]
+
+[node name="GameOver" parent="." instance=ExtResource("5_hbvy5")]
+process_mode = 2
+
+[connection signal="end_game" from="TileMap" to="." method="_on_tile_map_end_game"]
+[connection signal="flag_placed" from="TileMap" to="." method="_on_tile_map_flag_placed"]
+[connection signal="flag_removed" from="TileMap" to="." method="_on_tile_map_flag_removed"]
+[connection signal="game_won" from="TileMap" to="." method="_on_tile_map_game_won"]
+[connection signal="restart" from="GameOver" to="." method="_on_game_over_restart"]

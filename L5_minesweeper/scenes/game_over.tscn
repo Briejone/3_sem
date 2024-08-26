@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://diska3urliehv"]
+
+[ext_resource type="Script" path="res://scenes/game_over.gd" id="1_woldb"]
+[ext_resource type="StyleBox" path="res://scenes/new_style_box_flat.tres" id="1_xlfar"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t1cwu"]
+bg_color = Color(0, 0.60606, 0.643027, 1)
+
+[node name="GameOver" type="CanvasLayer"]
+script = ExtResource("1_woldb")
+
+[node name="RestartButton" type="Button" parent="."]
+offset_left = 275.0
+offset_top = 700.0
+offset_right = 475.0
+offset_bottom = 750.0
+theme_override_font_sizes/font_size = 24
+theme_override_styles/hover = ExtResource("1_xlfar")
+theme_override_styles/pressed = ExtResource("1_xlfar")
+theme_override_styles/normal = ExtResource("1_xlfar")
+text = "Try again"
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 250.0
+offset_top = 335.0
+offset_right = 500.0
+offset_bottom = 415.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_t1cwu")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -94.0
+offset_top = -27.5
+offset_right = 94.0
+offset_bottom = 27.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "YOU WIN!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]

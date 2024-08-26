@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://bdh0qso00khel"]
+
+[ext_resource type="Texture2D" uid="uid://bn4a3lvngqnjm" path="res://assets/Tileset.png" id="1_3tyyj"]
+[ext_resource type="Script" path="res://scenes/tile_map.gd" id="2_u7xxx"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kl6ke"]
+texture = ExtResource("1_3tyyj")
+texture_region_size = Vector2i(50, 50)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_7wtmt"]
+tile_size = Vector2i(50, 50)
+sources/0 = SubResource("TileSetAtlasSource_kl6ke")
+
+[node name="TileMap" type="TileMap"]
+tile_set = SubResource("TileSet_7wtmt")
+format = 2
+layer_0/name = "Mines"
+layer_0/tile_data = PackedInt32Array(0, 131072, 0, 1, 131072, 0, 2, 131072, 0, 65538, 131072, 0, 65537, 131072, 0, 131072, 131072, 0, 262143, 131072, 0, 327679, 131072, 0, 262144, 131072, 0, 262145, 131072, 0, 262146, 131072, 0, 196610, 131072, 0, 196611, 131072, 0, 131076, 131072, 0, 131077, 131072, 0, 65541, 131072, 0, 65540, 131072, 0, 65539, 131072, 0, 131074, 131072, 0, 131073, 131072, 0, 196608, 131072, 0, 262147, 131072, 0, 262148, 131072, 0, 262149, 131072, 0, 262150, 131072, 0, 196614, 131072, 0, 196615, 131072, 0, 131079, 131072, 0, 131078, 131072, 0, 131075, 131072, 0, 196612, 131072, 0)
+layer_1/name = "Numbers"
+layer_2/name = "Grass"
+layer_3/name = "Flags"
+layer_4/name = "Hover"
+script = ExtResource("2_u7xxx")
