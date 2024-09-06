@@ -4,9 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define CHAR_SIZE 256
-#define MAX_SIZE 256
+#include "define.h"
 
 typedef struct Node_hash {
     char* data;

@@ -363,14 +363,8 @@ TEST(BinaryTreeTest, PrintTree) {
     TAdd(tree, "7");
     TAdd(tree, "2");
     TAdd(tree, "4");
-
-    // We can't directly test the print function since it prints to the console.
-    // We would need to capture stdout to test it. For now, we assume it works as expected.
-    // This test could be improved by redirecting stdout and checking the printed content.
-
     printTree(tree->head, 2);
     
-    // Cleanup
     free(tree);
 }
 

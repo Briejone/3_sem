@@ -4,9 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#define _CRT_SECURE_NO_WARNINGS
-#define CHAR_SIZE 256
+#include "define.h"
 
 typedef struct queue_node {
     char data[256];

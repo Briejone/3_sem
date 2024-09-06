@@ -3,14 +3,17 @@
 
 Stack* createStack() {
     Stack* stack = NULL;
-    stack = malloc(sizeof(Stack));
+    stack = (Stack*)malloc(sizeof(Stack));
     stack->size = 0;
     stack->top = NULL;
     return stack;
 }
 
-void SPush(Stack* stack, char* data) {
-    Node *node = malloc(sizeof(Node));
+int SPush(Stack* stack, char* data) {
+    Node *node = (Node*)malloc(sizeof(Node));
+    if (data == NULL) {
+        return 0;
+    }
     if (stack->top == NULL) {
         stack->top = node;
         strcpy(stack->top->data, data);
@@ -19,20 +22,29 @@ void SPush(Stack* stack, char* data) {
     stack->top = node;
     strcpy(stack->top->data, data);
     }
+    // printf("это очень весело");
+    //printf("|%s\n", stack->top->data);
     stack->size++;
+    return 0;
 }
 
 
 char* SPop(Stack* stack) {
     if (stack->top == NULL) {
         return NULL;
-    } else {
-        char *data = malloc(sizeof(stack->top->data));
-        strcpy(data,stack->top->data);
-        stack->top = stack->top->next;
-        stack->size--;
-        return data;
     }
+
+    Node *temp = stack->top;
+    stack->top = stack->top->next;
+    stack->size--;
+    //printf("%s", temp->data);
+    char *data = (char*)malloc(sizeof(char) * CHAR_SIZE);
+    if (data != NULL) {
+        strcpy(data, temp->data);
+    }
+
+    free(temp);
+    return data;
 }
 
 char* STop(Stack* stack) {

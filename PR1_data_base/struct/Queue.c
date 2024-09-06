@@ -11,7 +11,10 @@ Queue* createQueue() {
 
 queue_node* QPush (Queue* queue, char* data) {
     queue_node* node = (queue_node*)malloc(sizeof(queue_node*));
-    node->next = NULL;
+    if(data == NULL) {
+        return 0;
+    }
+    node->next = NULL;  
     strcpy(node->data, data);
     if (queue->head == NULL) {
         queue->head = node;

@@ -8,5 +8,6 @@
 
 
 char** scan_file(FILE* file);
-
+void write_strings_to_file(Request* req, char** strings);
+void remove_newline_from_last_string(char** strings);
 #endif

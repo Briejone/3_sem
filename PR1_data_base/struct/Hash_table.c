@@ -3,7 +3,7 @@
 HashTable* createHashTable(int size) {
     HashTable* hashtable = (HashTable*)malloc(sizeof(HashTable));
     hashtable->size = size;
-    hashtable->table = malloc(sizeof(Node_hash **) * size);
+    hashtable->table = (Node_hash**)malloc(sizeof(Node_hash **) * size);
     for (int i = 0; i < size; i++) {
         hashtable->table[i] = NULL;
     }

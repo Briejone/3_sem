@@ -1,5 +1,2 @@
-array: 1 2 3 4 5
-array: 2 2 3 4 5
-array: 3 2 3 4 5
-array: 4 2 3 4 5
-array: 5 2 3 4 5
+hash_table:19: abobaf 233
+stack:19: abobaf 233
