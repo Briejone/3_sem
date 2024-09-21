@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include <string>
+#include <fstream>
 
 class Queue {
 private:
@@ -21,6 +22,8 @@ public:
     std::string dequeue();
     std::string front() const;
     bool isEmpty() const;
+    void serialize_binary(const std::string& filename) const;
+    void deserialize_binary(const std::string& filename);
 };
 
 #endif // QUEUE_H

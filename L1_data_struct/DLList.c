@@ -109,7 +109,6 @@ void DLLRem(DList* list, int index) {
   if(index > list->size || index < 0) {
     perror("ERROR: index is out of range");
     return;
-    //exit(1);
   }
   Node_Dlist* tmp = list->head;
   int index_c = 0;

@@ -1,6 +1,9 @@
 #ifndef HASH_TABLE_HPP
 #define HASH_TABLE_HPP
 
+#include <iostream>
+#include <fstream>
+#include <stdexcept>
 #include <string>
 
 class HashTable {
@@ -27,6 +30,11 @@ public:
     std::string remove(const std::string& key);
     std::string get(const std::string& key) const;
     int getSize() const { return size; }
+    void serialize_binary(const std::string& filename) const;
+    void deserialize_binary(const std::string& filename);
+    
 };
+
+void testSerializationDeserialization();
 
 #endif // HASH_TABLE_HPP

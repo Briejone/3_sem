@@ -89,3 +89,60 @@ int Array::ArrSrch(const char* searchData) const {
     }
     return -1; // Не найдено
 }
+
+#include <fstream>
+
+void Array::serialize_binary(const char* filename) const {
+    std::ofstream outFile(filename, std::ios::binary);
+    if (outFile.is_open()) {
+        outFile.write(reinterpret_cast<const char*>(&size), sizeof(size));  // Write size
+        for (int i = 0; i < size; i++) {
+            outFile.write(data[i], CHAR_SIZE);  // Write each string
+        }
+        outFile.close();
+    } else {
+        std::cerr << "Could not open file for binary serialization.\n";
+    }
+}
+
+void Array::deserialize_binary(const char* filename) {
+    std::ifstream inFile(filename, std::ios::binary);
+    if (inFile.is_open()) {
+        inFile.read(reinterpret_cast<char*>(&size), sizeof(size));  // Read size
+        for (int i = 0; i < size; i++) {
+            inFile.read(data[i], CHAR_SIZE);  // Read each string
+        }
+        inFile.close();
+    } else {
+        std::cerr << "Could not open file for binary deserialization.\n";
+    }
+}
+
+#include <fstream>
+
+void Array::serialize_text(const char* filename) const {
+    std::ofstream outFile(filename);
+    if (outFile.is_open()) {
+        outFile << size << std::endl;  // Write size
+        for (int i = 0; i < size; i++) {
+            outFile << data[i] << std::endl;  // Write each string
+        }
+        outFile.close();
+    } else {
+        std::cerr << "Could not open file for text serialization.\n";
+    }
+}
+
+void Array::deserialize_text(const char* filename) {
+    std::ifstream inFile(filename);
+    if (inFile.is_open()) {
+        inFile >> size;
+        inFile.ignore();  // Ignore the newline after size
+        for (int i = 0; i < size; i++) {
+            inFile.getline(data[i], CHAR_SIZE);  // Read each string
+        }
+        inFile.close();
+    } else {
+        std::cerr << "Could not open file for text deserialization.\n";
+    }
+}

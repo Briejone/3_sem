@@ -1,113 +1,152 @@
 #include "Binary_tree.h"
 
 Tree* createTree() {
-  Tree* tree = (Tree*)malloc(sizeof(Tree));
-  tree->head = NULL;
-  tree->size = 0;
-  return tree;
+    Tree* tree = (Tree*)malloc(sizeof(Tree));
+    tree->head = NULL;
+    tree->size = 0;
+    return tree;
 }
 
-NodeTree* createNodeTree(char* data) {
-  NodeTree* node = (NodeTree*)malloc(sizeof(NodeTree));
-  node->left = NULL;
-  node->right = NULL;
-  node->parent = NULL;
-  strcpy(node->data, data);
-  return node;
-}
-
-NodeTree* TAdd(Tree* tree, char* data) {
-  NodeTree* node = createNodeTree(data);
-  NodeTree* current = tree->head;
-  NodeTree* parent = NULL;
-
-  if (tree->head == NULL) {
-    tree->head = node;
+NodeTree* createNodeTree(const char* data) {
+    NodeTree* node = (NodeTree*)malloc(sizeof(NodeTree));
+    node->left = NULL;
+    node->right = NULL;
+    node->parent = NULL;
+    strcpy(node->data, data);
     return node;
-  }
-
-  int counter = 0;
-  while (current != NULL) {
-    counter++;
-    if (strcmp( data, current->data ) == -1) {
-      parent = current;
-      current = current->left;
-    } else {
-      parent = current;
-      current = current->right;
-    }
-    
-  }
-  if (current == NULL) {
-    node->parent = parent;
-    if (strcmp( data, parent->data ) == -1) {
-    parent->left = node;
-    } else {parent->right = node;} 
-  }
-  return node;
 }
 
-NodeTree* TSrch(Tree* tree, char* data) {
-  NodeTree* tmp = tree->head;
-  while (tmp != NULL) {
-    if (strcmp( data, tmp->data ) == -1) {
-      tmp = tmp->left;
-    } else if (strcmp(data, tmp->data) == 0) {
-      return tmp;
+NodeTree* TAdd(Tree* tree, const char* data) {
+    NodeTree* node = createNodeTree(data);
+    NodeTree* current = tree->head;
+    NodeTree* parent = NULL;
+
+    if (tree->head == NULL) {
+        tree->head = node;
+        return node;
+    }
+
+    while (current != NULL) {
+        parent = current;
+        if (strcmp(data, current->data) < 0) {
+            current = current->left;
+        } else {
+            current = current->right;
+        }
+    }
+
+    node->parent = parent;
+    if (strcmp(data, parent->data) < 0) {
+        parent->left = node;
     } else {
-      tmp = tmp->right;
-    }    
-  }
-  return tmp;
-};
+        parent->right = node;
+    }
+
+    return node;
+}
+
+NodeTree* TSrch(Tree* tree, const char* data) {
+    NodeTree* tmp = tree->head;
+    while (tmp != NULL) {
+        if (strcmp(data, tmp->data) < 0) {
+            tmp = tmp->left;
+        } else if (strcmp(data, tmp->data) == 0) {
+            return tmp;
+        } else {
+            tmp = tmp->right;
+        }
+    }
+    return NULL;
+}
 
 NodeTree* findMin(NodeTree* node) {
-  NodeTree* tmp = node;
-  while(tmp->left != NULL) {
-    tmp = tmp->left;
-  }
-  return tmp;
+    NodeTree* tmp = node;
+    while (tmp->left != NULL) {
+        tmp = tmp->left;
+    }
+    return tmp;
 }
 
-NodeTree* TDel(Tree* tree, char* data) {
-  NodeTree* current = TSrch(tree, data);
-  
-  NodeTree* parent = NULL;
-  NodeTree* swap = NULL;
-  if(current != NULL) {
-    parent = current->parent;
-    if (current->left == NULL && current->right == NULL) {
-      if (parent->left == current) {
-        parent->left = NULL;
-      } else {
-        parent->right = NULL;
-      }
+NodeTree* TDel(Tree* tree, const char* data) {
+    NodeTree* current = TSrch(tree, data);
+    if (current == NULL) {
+        return NULL;
+    }
 
-    } else if (current->left == NULL && current->right != NULL) {
-      current = current->right;
-      parent->right = current;
-      current->parent = parent;
-    
-    } else if (current->left != NULL && current->right == NULL) {
-      current = current->left;
-      parent->left = current;
-      current->parent = parent;
-    
-    } else {
-      swap = findMin(current->right);
-      swap->parent = parent;
-      swap->right = current->right;
-      swap->left = current->left;
-      if(current->parent == NULL) {
-        tree->head = swap;
-      } else if (swap == parent->left) {
-        parent->left = swap;
-      } else {
-        parent->right = swap;
-      }
-    } 
-  }
-  return current;
+    NodeTree* parent = current->parent;
+    NodeTree* replacement = NULL;
+
+    // Удаляем лист
+    if (current->left == NULL && current->right == NULL) {
+        if (parent == NULL) {
+            tree->head = NULL; 
+        } else if (parent->left == current) {
+            parent->left = NULL;
+        } else {
+            parent->right = NULL;
+        }
+    }
+    // Один дочерний узел справа
+    else if (current->left == NULL) {
+        replacement = current->right;
+        if (parent == NULL) {
+            tree->head = replacement;
+        } else if (parent->left == current) {
+            parent->left = replacement;
+        } else {
+            parent->right = replacement;
+        }
+        replacement->parent = parent;
+    }
+    // Один дочерний узел слева
+    else if (current->right == NULL) {
+        replacement = current->left;
+        if (parent == NULL) {
+            tree->head = replacement;
+        } else if (parent->left == current) {
+            parent->left = replacement;
+        } else {
+            parent->right = replacement;
+        }
+        replacement->parent = parent;
+    }
+    // Два дочерних узла
+    else {
+        replacement = findMin(current->right); // Находим минимальный элемент в правом поддереве
+
+        // Если минимальный элемент - не прямой потомок удаляемого узла
+        if (replacement->parent != current) {
+            // Заменяем минимальный узел его правым поддеревом
+            replacement->parent->left = replacement->right;
+            if (replacement->right != NULL) {
+                replacement->right->parent = replacement->parent;
+            }
+
+            replacement->right = current->right;
+            if (current->right != NULL) {
+                current->right->parent = replacement;
+            }
+        }
+
+        // Заменяем удаляемый узел минимальным
+        replacement->left = current->left;
+        if (current->left != NULL) {
+            current->left->parent = replacement;
+        }
+
+        if (parent == NULL) {
+            tree->head = replacement;
+        } else if (parent->left == current) {
+            parent->left = replacement;
+        } else {
+            parent->right = replacement;
+        }
+
+        replacement->parent = parent;
+    }
+
+    free(current);
+    return replacement;
 }
 
 void printTree(NodeTree *tree, int space) {
@@ -124,14 +163,16 @@ void printTree(NodeTree *tree, int space) {
     printTree(tree->left, space);
 }
 
-// int main() {
-//   Tree* tree = createTree();
-//   TAdd(tree, "5");
-//   TAdd(tree, "1");
-//   TAdd(tree, "2");
-//   TAdd(tree, "0");
-//   TAdd(tree, "7");
-//   printTree(tree->head, 2);
-//   return 0;
-// }
+
+int main() {
+  Tree* tree = createTree();
+  TAdd(tree, "5");
+  TAdd(tree, "1");
+  TAdd(tree, "2");
+  TAdd(tree, "0");
+  TAdd(tree, "7");
+  TDel(tree, "5");
+  printTree(tree->head, 2);
+  return 0;
+}
 

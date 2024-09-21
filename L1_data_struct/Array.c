@@ -63,18 +63,19 @@ int ArrSrch(Array* arr, char* data) {
     return -1;
 }
 
-// int main() {
-//     Array* arr = create_array(5);
-//     ArrAdd(arr, "9");
-//     ArrAdd(arr, "8");
-//     ArrAdd(arr, "7");
-//     ArrAdd(arr, "6");
-//     ArrAdd(arr, "5");
-//     printf("%s\n", ArrGet(arr, 0));
-//     printf("%s\n", ArrGet(arr, 1));
-//     printf("%s\n", ArrGet(arr, 2));
-//     printf("%s\n", ArrGet(arr, 3));
-//     printf("%s\n", ArrGet(arr, 4));
+int main() {
+    Array* arr = create_array(5);
+    ArrAdd(arr, "9");
+    ArrAdd(arr, "8");
+    ArrAdd(arr, "7");
+    ArrAdd(arr, "6");
+    ArrAdd(arr, "5");
+    printf("%s\n", ArrGet(arr, 0));
+    printf("%s\n", ArrDel(arr));
+    printf("%d\n", ArrIns(arr,"ldld",  0));
+    printf("%d\n", ArrSrch(arr, "7"));
+    printf("%s\n", ArrGet(arr, 4));
+    print_array(arr);
 
-//     return 0;   
-// }
+    return 0;   
+}

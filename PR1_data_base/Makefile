@@ -9,7 +9,7 @@ BUILD_DIR = build
 
 # Source files
 SRC_FILES = src/main.c src/request_parser.c src/scan_file.c src/find_struct.c src/command_rewrite.c
-STRUCT_FILES = struct/Array.c struct/Hash_table.c struct/Queue.c struct/Stack.c
+STRUCT_FILES = struct/Array.c struct/Hash_table.c struct/Queue.c struct/Stack.c struct/Set.c
 all: bd 
 
 bd:

@@ -53,3 +53,25 @@ TEST_F(LinkedListTest, SizeAndEmptyTest) {
     EXPECT_EQ(emptyList.getSize(), 0);
 }
 
+// // Тестирование десериализации из бинарного файла
+// TEST_F(LinkedListTest, DeserializeBinary) {
+//     list.serialize_binary("test_list.bin");
+
+//     LinkedList restoredList;
+//     restoredList.deserialize_binary("test_list.bin");
+
+//     EXPECT_EQ(restoredList.get(0), "First");
+//     EXPECT_EQ(restoredList.get(1), "Second");
+//     EXPECT_EQ(restoredList.get(2), "Third");
+// }
+
+// Тестирование сериализации и десериализации пустого списка
+TEST_F(LinkedListTest, SerializeDeserializeEmptyList) {
+    LinkedList emptyList;
+    emptyList.serialize_binary("test_list.bin");
+
+    LinkedList restoredList;
+    restoredList.deserialize_binary("test_list.bin");
+
+    EXPECT_EQ(restoredList.getSize(), 0);
+}

@@ -55,7 +55,7 @@ Request* type_parser(Request* req) {
     if (strcmp(req->command, "SADD") == 0 || 
         strcmp(req->command, "SREM") == 0 || 
         strcmp(req->command, "SISMEMBER") == 0) {
-        strcpy(req->type, "array");
+        strcpy(req->type, "set");
         //printf("%s\n", req->type);
     } else if (strcmp(req->command, "SPUSH") == 0 || 
                strcmp(req->command, "SPOP") == 0) {

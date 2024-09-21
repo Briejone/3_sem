@@ -75,7 +75,7 @@ char* HGet(HashTable* hashtable, char* key) {
         current = current->next;
     }
     return NULL;
-}
+}                       
 
 // int main() {
 //     HashTable* table = createHashTable(MAX_SIZE);

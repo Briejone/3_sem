@@ -130,3 +130,56 @@ int DoublyLinkedList::getSize() const {
 bool DoublyLinkedList::isEmpty() const {
     return head == NULL;
 }
+
+void DoublyLinkedList::serialize_binary(const char* filename) const {
+    std::ofstream outFile(filename, std::ios::binary);
+    if (outFile.is_open()) {
+        // Записываем размер списка
+        outFile.write(reinterpret_cast<const char*>(&size), sizeof(size));
+
+        // Проходим по всем узлам и записываем их данные
+        Node* current = head;
+        while (current != NULL) {
+            // Получаем строку в виде массива символов
+            int dataSize = current->data.size();
+            outFile.write(reinterpret_cast<const char*>(&dataSize), sizeof(dataSize));
+            outFile.write(current->data.c_str(), dataSize);
+            current = current->next;
+        }
+
+        outFile.close();
+    } else {
+        std::cerr << "Could not open file for binary serialization.\n";
+    }
+}
+
+void DoublyLinkedList::deserialize_binary(const char* filename) {
+    std::ifstream inFile(filename, std::ios::binary);
+    if (inFile.is_open()) {
+        // Очистим текущий список
+        while (!isEmpty()) {
+            removeFront();
+        }
+
+        // Читаем размер списка
+        inFile.read(reinterpret_cast<char*>(&size), sizeof(size));
+
+        // Читаем данные каждого узла и восстанавливаем их в список
+        for (int i = 0; i < size; i++) {
+            int dataSize;
+            inFile.read(reinterpret_cast<char*>(&dataSize), sizeof(dataSize));
+
+            char* buffer = new char[dataSize + 1]; // +1 для терминатора строки
+            inFile.read(buffer, dataSize);
+            buffer[dataSize] = '\0'; // Завершаем строку
+            std::string data(buffer);
+            delete[] buffer;
+
+            addBack(data); // Восстанавливаем список
+        }
+
+        inFile.close();
+    } else {
+        std::cerr << "Could not open file for binary deserialization.\n";
+    }
+}

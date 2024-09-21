@@ -2,6 +2,7 @@
 #define BINARYTREE_H
 
 #include <iostream>
+#include <fstream>
 
 class BinaryTree {
 private:
@@ -25,6 +26,11 @@ public:
     void insert(int val);
     Node* search(int val) const;
     void inorder(std::ostream& out) const;
+    void serialize(Node* node, std::ofstream& out) const;
+    Node* deserialize(std::ifstream& in);
+    void serialize_binary(const std::string& filename) const;
+    void deserialize_binary(const std::string& filename);
 };
+
 
 #endif // BINARYTREE_H

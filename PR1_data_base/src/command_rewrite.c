@@ -2,10 +2,10 @@
 
 char* command_menu(char** tokens, Request* req) {
     char* string = (char*)malloc(sizeof(char) * STRING_SIZE);
-    if(strcmp(req->type, "array") == 0 ) {
-        Array* arr = string_to_array(tokens);
-        query_to_array(arr, req);
-        array_to_string(arr, string, req);
+    if(strcmp(req->type, "set") == 0 ) {
+        HashSet* set = string_to_set(tokens);
+        query_to_set(set, req);
+        set_to_string(set, string, req);
     } else if(strcmp(req->type, "stack") == 0 ) {
         Stack* st = string_to_stack(tokens);
         query_to_stack(st, req);
@@ -23,27 +23,47 @@ char* command_menu(char** tokens, Request* req) {
     return string;
 }
 
-char* array_to_string(Array* arr, char* string, Request* req) {
-    int size = arr->size;
-    if(size == 0) {
-        fprintf(stdout,"array %s deleted", req->name);
-        strcpy(string, "\0");
-        return string;
-    }
+char* set_to_string(HashSet* set, char* string, Request* req) {
     strcat(string, req->type);
     strcat(string, ":");
     strcat(string, req->name);
     strcat(string, ":");
     strcat(string, " ");
-    for (int i = 0; i < size - 1; i++) {
-        strcat(string, ARRDelr(arr));
-        strcat(string, " ");
+    for (int i = 0; i < set->size; i++) {
+        if(set->table[i] == NULL) {
+            continue;
+        }
+        Node_set* current = set->table[i];
+        while(current != NULL) {
+            strcat(string, current->data);
+            strcat(string, " ");
+            current = current->next;
+        }
     }
-    strcat(string, ARRDelr(arr));
     strcat(string, "\n");
-//    printf("%s", string);
     return string;
 }
+// char* array_to_string(Array* arr, char* string, Request* req) {
+//     int size = arr->size;
+//     if(size == 0) {
+//         fprintf(stdout,"array %s deleted", req->name);
+//         strcpy(string, "\0");
+//         return string;
+//     }
+//     strcat(string, req->type);
+//     strcat(string, ":");
+//     strcat(string, req->name);
+//     strcat(string, ":");
+//     strcat(string, " ");
+//     for (int i = 0; i < size - 1; i++) {
+//         strcat(string, ARRDelr(arr));
+//         strcat(string, " ");
+//     }
+//     strcat(string, ARRDelr(arr));
+//     strcat(string, "\n");
+// //    printf("%s", string);
+//     return string;
+// }
 
 char* queue_to_string(Queue* queue, char* string,  Request* req) {
     int size = queue->size;
@@ -113,37 +133,56 @@ char* ht_to_string(HashTable* ht, char* string, Request* req) {
     return string;
 } 
 
-Array* query_to_array(Array* arr, Request* req) {
+// Array* query_to_array(Array* arr, Request* req) {
+//     if(strcmp(req->command, "SADD") == 0) {
+//         char** tokens = tokenize_string(req->data);
+//         for(int i = 0; tokens[i] != 0; i++) {
+//             ARRAdd(arr, tokens[i]);
+//         }
+
+//         return arr;
+//     } else if(strcmp(req->command, "SREM") == 0) {
+//         char* del_string = ARRDel(arr);
+//         fprintf(stdout, "%s\n", del_string);
+    // } else if(strcmp(req->command, "SISMEMBER") == 0) {
+    //     char* token = req->data;
+    //     int size = arr->size;
+    //     int flag = 0;
+    //     for (int i = 0; i < size; i++) {
+    //         if(strcmp(arr->data[i], token) == 0) {
+    //             flag = 1;
+    //         }
+//         }
+//         if (flag == 1) {
+//             fprintf(stdout, "TRUE\n");
+//         } if (flag == 0) {
+//             fprintf(stdout, "FALSE\n");
+//         }
+//     }
+//     return arr;
+// }
+// (strcmp(req->command, "SPUSH") == 0 || 
+//  strcmp(req->command, "SPOP") == 0) 
+HashSet* query_to_set(HashSet* set, Request* req) {
     if(strcmp(req->command, "SADD") == 0) {
         char** tokens = tokenize_string(req->data);
         for(int i = 0; tokens[i] != 0; i++) {
-            ARRAdd(arr, tokens[i]);
+            HSetAdd(set, tokens[i]);
         }
-
-        return arr;
+        return set;
     } else if(strcmp(req->command, "SREM") == 0) {
-        char* del_string = ARRDel(arr);
+        char* del_string = HSetRemove(set, req->data);
         fprintf(stdout, "%s\n", del_string);
     } else if(strcmp(req->command, "SISMEMBER") == 0) {
-        char* token = req->data;
-        int size = arr->size;
-        int flag = 0;
-        for (int i = 0; i < size; i++) {
-            if(strcmp(arr->data[i], token) == 0) {
-                flag = 1;
-            }
-        }
+        int flag = HSetContains(set, req->data);
         if (flag == 1) {
             fprintf(stdout, "TRUE\n");
-        } if (flag == 0) {
+        } else {
             fprintf(stdout, "FALSE\n");
         }
     }
-    return arr;
+    return set;
 }
-// (strcmp(req->command, "SPUSH") == 0 || 
-//  strcmp(req->command, "SPOP") == 0) 
-
 Queue* query_to_queue(Queue* queue, Request* req) {
     if(strcmp(req->command, "QPUSH") == 0) {
         char** tokens = tokenize_string(req->data);
@@ -187,13 +226,20 @@ HashTable* query_to_ht(HashTable* ht, Request* req) {
 }
 
 
-Array* string_to_array(char** tokens) {
-    Array* arr = create_array(MAX_TOKENS);
-    for(int i = 0; tokens[i] != NULL; i++) {
-        ARRAdd(arr, tokens[i]);
-        //printf("%s", tokens[i]);
+// Array* string_to_array(char** tokens) {
+//     Array* arr = create_array(MAX_TOKENS);
+//     for(int i = 0; tokens[i] != NULL; i++) {
+//         ARRAdd(arr, tokens[i]);
+//         //printf("%s", tokens[i]);
+//     }
+//     return arr;
+// }
+HashSet* string_to_set(char** tokens) {
+    HashSet* hs = createHashSet(STRUCT_SIZE);
+    for (int i = 0; tokens[i] != NULL; i++) {
+        HSetAdd(hs, tokens[i]);
     }
-    return arr;
+    return hs;
 }
 
 Stack* string_to_stack(char** tokens) {

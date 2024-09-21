@@ -121,8 +121,65 @@ int LGet(List* list, char* data) {
     }
 }
 
-
 // int main() {
-//     printf("stupid huina");
+//     // Создание списка
+//     List* list = create_list();
+
+//     // Добавление элементов в список
+//     LAdd(list, "First");
+//     LAdd(list, "Second");
+//     LAddr(list, "Third");
+
+//     // Вывод содержимого списка
+//     printf("List after additions:\n");
+//     Lnode* current = list->head;
+//     while (current != NULL) {
+//         printf("%s\n", current->data);
+//         current = current->next;
+//     }
+
+//     // Вставка элемента по индексу
+//     LIns(list, 1, "InsertedAtIndex1");
+
+//     // Вывод содержимого списка после вставки
+//     printf("List after insertion:\n");
+//     current = list->head;
+//     while (current != NULL) {
+//         printf("%s\n", current->data);
+//         current = current->next;
+//     }
+
+//     // Удаление элемента по значению
+//     printf("Deleting 'Second':\n");
+//     LDel_val(list, "Second");
+
+//     // Вывод содержимого списка после удаления
+//     printf("List after deletion:\n");
+//     current = list->head;
+//     while (current != NULL) {
+//         printf("%s\n", current->data);
+//         current = current->next;
+//     }
+
+//     // Удаление первого элемента
+//     printf("Deleting first element:\n");
+//     char* deletedData = LDel(list);
+//     printf("Deleted data: %s\n", deletedData);
+//     free(deletedData);
+
+//     // Вывод содержимого списка после удаления
+//     printf("List after deleting the first element:\n");
+//     current = list->head;
+//     while (current != NULL) {
+//         printf("%s\n", current->data);
+//         current = current->next;
+//     }
+
+//     // Освобождение памяти
+//     while (list->head != NULL) {
+//         LDel(list);
+//     }
+//     free(list);
+
 //     return 0;
 // }

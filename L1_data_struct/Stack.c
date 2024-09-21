@@ -3,14 +3,14 @@
 
 Stack* createStack() {
     Stack* stack = NULL;
-    stack = malloc(sizeof(Stack));
+    stack = (Stack*)malloc(sizeof(Stack));
     stack->size = 0;
     stack->top = NULL;
     return stack;
 }
 
 void SPush(Stack* stack, char* data) {
-    Node *node = malloc(sizeof(Node));
+    Node* node = (Node*)malloc(sizeof(Node));
     if (stack->top == NULL) {
         stack->top = node;
         strcpy(stack->top->data, data);
@@ -27,7 +27,7 @@ char* SPop(Stack* stack) {
     if (stack->top == NULL) {
         return NULL;
     } else {
-        char *data = malloc(sizeof(stack->top->data));
+        char *data = (char*)malloc(sizeof(stack->top->data));
         strcpy(data,stack->top->data);
         stack->top = stack->top->next;
         stack->size--;
@@ -42,12 +42,12 @@ char* STop(Stack* stack) {
     return stack->top->data;
 }
 
-// int main() {
-//     Stack* stack = createStack();
-//     SPush(stack, "kryto");
-//     SPush(stack, "brawl stars");
-//     printf("%s\n", SPop(stack));
-//     printf("%s", SPop(stack));
+int main() {
+    Stack* stack = createStack();
+    SPush(stack, "kryto");
+    SPush(stack, "brawl stars");
+    printf("%s\n", SPop(stack));
+    printf("%s", SPop(stack));
 
-//     return 0;
-// }
+    return 0;
+}

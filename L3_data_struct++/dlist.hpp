@@ -2,7 +2,8 @@
 #define DOUBLYLINKEDLIST_H
 
 #include <string>
-
+#include <fstream>
+#include <iostream>
 class DoublyLinkedList {
 private:
     struct Node {
@@ -29,6 +30,9 @@ public:
     int find(const std::string& data) const;
     int getSize() const;
     bool isEmpty() const;
+     // Методы для сериализации и десериализации
+    void serialize_binary(const char* filename) const;
+    void deserialize_binary(const char* filename);
 };
 
 #endif // DOUBLYLINKEDLIST_H

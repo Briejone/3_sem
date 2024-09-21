@@ -18,6 +18,8 @@ void SPush(Stack* stack, int data);
 int SPop(Stack* stack);
 int STop(Stack* stack);
 int evaluatePostfix(char* expression);
+int isValidExpression(char* expression);
+int isOperator(char ch);
 
 Stack* createStack() {
     Stack* stack = (Stack*)malloc(sizeof(Stack));
@@ -36,7 +38,7 @@ void SPush(Stack* stack, int data) {
 
 int SPop(Stack* stack) {
     if (stack->top == NULL) {
-        printf("Stack underflow\n");
+        printf("Stack underflow: too many operators or invalid expression\n");
         exit(1);
     } else {
         Node* temp = stack->top;
@@ -56,18 +58,47 @@ int STop(Stack* stack) {
     return stack->top->data;
 }
 
-int evaluatePostfix(char* expression) {
-    Stack* stack = createStack();
+int isValidExpression(char* expression) {
+    int operands = 0;
+    int operators = 0;
+
     for (int i = 0; expression[i] != '\0'; i++) {
         if (isdigit(expression[i])) {
-            // Преобразуем символ цифры в целое число и кладем его в стек
+            operands++;
+        } else if (isOperator(expression[i])) {
+            operators++;
+            if (operators >= operands) {
+                // Слишком много операторов по сравнению с операндами
+                return 0;
+            }
+        } else {
+            // Недопустимый символ
+            return 0;
+        }
+    }
+    return (operands == operators + 1); // Должно быть на 1 больше операндов, чем операторов
+}
+
+int isOperator(char ch) {
+    return ch == '+' || ch == '-' || ch == '*' || ch == '/';
+}
+
+int evaluatePostfix(char* expression) {
+    Stack* stack = createStack();
+
+    if (!isValidExpression(expression)) {
+        printf("Invalid expression\n");
+        free(stack);
+        return -1;
+    }
+
+    for (int i = 0; expression[i] != '\0'; i++) {
+        if (isdigit(expression[i])) {
             SPush(stack, expression[i] - '0');
         } else {
-            // Операция: извлекаем два элемента из стека
             int operand2 = SPop(stack);
             int operand1 = SPop(stack);
 
-            // Выполняем операцию и кладем результат обратно в стек
             switch (expression[i]) {
                 case '+':
                     SPush(stack, operand1 + operand2);
@@ -79,20 +110,29 @@ int evaluatePostfix(char* expression) {
                     SPush(stack, operand1 * operand2);
                     break;
                 case '/':
+                    if (operand2 == 0) {
+                        printf("Division by zero error\n");
+                        free(stack);
+                        exit(1);
+                    }
                     SPush(stack, operand1 / operand2);
                     break;
             }
         }
     }
 
-    // Результат будет на вершине стека
     int result = SPop(stack);
     free(stack);
     return result;
 }
 
 int main() {
-    char expression[] = "314+-";
-    printf("Result of %s is %d\n", expression, evaluatePostfix(expression));
+    char expression[] = "314*+";
+    int result = evaluatePostfix(expression);
+    
+    if (result != -1) {
+        printf("Result of %s is %d\n", expression, result);
+    }
+
     return 0;
 }

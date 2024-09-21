@@ -2,6 +2,7 @@
 #define LINKEDLIST_H
 
 #include <string>
+#include <fstream>
 
 class LinkedList {
 private:
@@ -25,6 +26,9 @@ public:
     int find(const std::string& data) const;
     int getSize() const;
     bool isEmpty() const;
+    void serialize_binary(const std::string& filename) const;
+    void deserialize_binary(const std::string& filename);
+
 };
 
 #endif // LINKEDLIST_H

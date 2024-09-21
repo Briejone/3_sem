@@ -1,2 +1,8 @@
 hash_table:19: abobaf 233
 stack:19: abobaf 233
+array:19: abobaf 233
+array:20: abobaf 233
+hash_table:23: abobaf 1 
+stack:20: abobaf abobaf abobaf abobaf abobaf
+
+set:20: zalypa 

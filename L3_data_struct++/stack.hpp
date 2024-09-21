@@ -2,7 +2,7 @@
 #define STACK_H
 
 #include <string>
-
+#include <fstream>
 class Stack {
 private:
     struct Node {
@@ -20,6 +20,8 @@ public:
     std::string pop();
     std::string peek() const;
     bool isEmpty() const;
+    void serialize_binary(const std::string& filename) const;
+    void deserialize_binary(const std::string& filename);
 };
 
 #endif // STACK_H

@@ -37,11 +37,11 @@ char* QPop(Queue* queue) {
     return data;
 }
 
-// int main() {
-//     Queue* queue = createQueue();
-//     QPush(queue, "kryto");
-//     QPush(queue, "brawl stars");
-//     printf("%s\n", QPop(queue));
-//     printf("%s", QPop(queue));
-//     return 0;
-// }
+int main() {
+    Queue* queue = createQueue();
+    QPush(queue, "kryto");
+    QPush(queue, "brawl stars");
+    printf("%s\n", QPop(queue));
+    printf("%s", QPop(queue));
+    return 0;
+}

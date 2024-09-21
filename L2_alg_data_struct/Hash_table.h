@@ -7,7 +7,6 @@
 
 #define CHAR_SIZE 256
 #define MAX_SIZE 256
-#define _CRT_SECURE_NO_WARNINGS
 
 typedef struct Node_hash {
     char* data;
